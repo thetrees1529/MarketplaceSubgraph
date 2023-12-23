@@ -1,0 +1,64 @@
+type User @entity {
+  id: Bytes!
+  offers: [Offer!]! @derivedFrom(field: "buyer")
+  universalOffers: [UniversalOffer!]! @derivedFrom(field: "buyer")
+  listings: [Listing!]! @derivedFrom(field: "seller")
+  purchases: [Listing!]! @derivedFrom(field: "soldTo")
+  acceptedOffers: [Offer!]! @derivedFrom(field: "acceptedBy")
+  acceptedUniversalOffers: [UniversalOffer!]! @derivedFrom(field: "acceptedBy")
+}
+
+type Token @entity {
+  id: Bytes!
+  featuredListings: [Listing!]! @derivedFrom(field: "token")
+  featuredOffers: [Offer!]! @derivedFrom(field: "token")
+  featuresUniversalOffers: [UniversalOffer!]! @derivedFrom(field: "token")
+}
+
+type Collection @entity {
+  id: Bytes!
+  nfts: [Nft!]! @derivedFrom(field: "collection")
+  universalOffers: [UniversalOffer!]! @derivedFrom(field: "collection")
+}
+
+type Nft @entity {
+  id: String!
+  collection: Collection!
+  tokenId: BigInt!
+  offers: [Offer!]! @derivedFrom(field: "nft")
+  listings: [Listing!]! @derivedFrom(field: "nft")
+}
+
+type Offer @entity {
+  id: String!
+  cancelled: Boolean!
+  buyer: User!
+  nft: Nft!
+  token: Token!
+  price: BigInt!
+  expiry: BigInt!
+  acceptedBy: User
+}
+
+type UniversalOffer @entity {
+  id: String!
+  cancelled: Boolean!
+  buyer: User!
+  collection: Collection!
+  token: Token!
+  price: BigInt!
+  expiry: BigInt!
+  acceptedBy: User
+}
+
+type Listing @entity {
+  id: String!
+  delisted: Boolean!
+  seller: User!
+  nft: Nft!
+  token: Token!
+  price: BigInt!
+  expiry: BigInt!
+  soldTo: User
+}
+

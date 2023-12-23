@@ -1,0 +1,63 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: fuji
+    source:
+      address: "0xd820FF08e5852a9fa668a5686D0852D99A33C9EE"
+      abi: Contract
+      startBlock: 28770009
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Blacklisted
+        - Bought
+        - Delisted
+        - Listed
+        - OfferAccepted
+        - OfferCancelled
+        - Offered
+        - OwnershipTransferred
+        - TokenBlacklisted
+        - TokenWhitelisted
+        - UniversalOfferAccepted
+        - UniversalOfferCancelled
+        - UniversallyOffered
+        - Whitelisted
+      abis:
+        - name: Contract
+          file: Contract\abis\Contract.json
+      eventHandlers:
+        - event: Blacklisted(address)
+          handler: handleBlacklisted
+        - event: Bought(uint256,address)
+          handler: handleBought
+        - event: Delisted(uint256)
+          handler: handleDelisted
+        - event: Listed(uint256,(address,address,uint256,address,uint256,uint256))
+          handler: handleListed
+        - event: OfferAccepted(uint256,address)
+          handler: handleOfferAccepted
+        - event: OfferCancelled(uint256)
+          handler: handleOfferCancelled
+        - event: Offered(uint256,(address,address,uint256,address,uint256,uint256))
+          handler: handleOffered
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: TokenBlacklisted(address)
+          handler: handleTokenBlacklisted
+        - event: TokenWhitelisted(address)
+          handler: handleTokenWhitelisted
+        - event: UniversalOfferAccepted(uint256,address,uint256)
+          handler: handleUniversalOfferAccepted
+        - event: UniversalOfferCancelled(uint256)
+          handler: handleUniversalOfferCancelled
+        - event: UniversallyOffered(uint256,(address,address,address,uint256,uint256))
+          handler: handleUniversallyOffered
+        - event: Whitelisted(address)
+          handler: handleWhitelisted
+      file: Contract\Contract.wasm

@@ -1,0 +1,661 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract IWAVAX",
+        "name": "WAVAX_",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      }
+    ],
+    "name": "Blacklisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      }
+    ],
+    "name": "Bought",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Delisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IERC721",
+            "name": "col",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IERC20",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct Marketplace.Order",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "Listed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      }
+    ],
+    "name": "OfferAccepted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "OfferCancelled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IERC721",
+            "name": "col",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IERC20",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct Marketplace.Order",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "Offered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "TokenBlacklisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "TokenWhitelisted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "universalOfferId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "UniversalOfferAccepted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "universalOfferId",
+        "type": "uint256"
+      }
+    ],
+    "name": "UniversalOfferCancelled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "universalOfferId",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IERC721",
+            "name": "col",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IERC20",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct Marketplace.UniversalOrder",
+        "name": "order",
+        "type": "tuple"
+      }
+    ],
+    "name": "UniversallyOffered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      }
+    ],
+    "name": "Whitelisted",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "WAVAX",
+    "outputs": [
+      {
+        "internalType": "contract IWAVAX",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "acceptOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "universalOfferId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "acceptUniversalOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      }
+    ],
+    "name": "blacklist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "blacklistToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "buy",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "universalOfferId",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelUniversalOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "delist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "feeRecipient",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      }
+    ],
+    "name": "list",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "miliFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      }
+    ],
+    "name": "offer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "miliFee_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "feeRecipient_",
+        "type": "address"
+      }
+    ],
+    "name": "setFeeRecipient",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      }
+    ],
+    "name": "universallyOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "col",
+        "type": "address"
+      }
+    ],
+    "name": "whitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "whitelistToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
